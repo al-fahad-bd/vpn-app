@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
-import 'package:vpn_app/models/vpn_configuration.dart';
-import 'package:vpn_app/models/vpn_info.dart';
-import 'package:vpn_app/vpn_engine/vpn_engine.dart';
+import 'package:vpn_app/data/models/vpn_configuration.dart';
+import 'package:vpn_app/data/models/vpn_info.dart';
+import 'package:vpn_app/core/services/vpn_engine.dart';
 
 class ControllerHome extends GetxController {
   final Rx<VpnInfo> vpnInfo = AppPreferences.vpnInfoObj.obs;

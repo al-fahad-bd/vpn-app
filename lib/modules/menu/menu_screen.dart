@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/auth_screen/auth_screen.dart';
-import 'package:vpn_app/screens/edit_profile_screen.dart';
-import 'package:vpn_app/screens/service_screen.dart';
-import 'package:vpn_app/screens/settings_screen.dart';
-import 'package:vpn_app/screens/subscription_screen.dart';
-import 'package:vpn_app/screens/terms_n_conditions_screen.dart';
+import 'package:vpn_app/modules/auth/auth_screen.dart';
+import 'package:vpn_app/modules/screens/edit_profile_screen.dart';
+import 'package:vpn_app/modules/screens/service_screen.dart';
+import 'package:vpn_app/modules/settings/view/settings_view.dart';
+import 'package:vpn_app/modules/screens/subscription_screen.dart';
+import 'package:vpn_app/modules/screens/terms_n_conditions_screen.dart';
 
 import 'widgets/menu_items.dart';
 
@@ -57,7 +57,7 @@ class FullScreenMenu extends StatelessWidget {
                   MenuItems(
                     title: "Settings",
                     onTap: () {
-                      Get.to(() => const SettingsScreen());
+                      Get.to(() => SettingsView());
                     },
                   ),
                   MenuItems(

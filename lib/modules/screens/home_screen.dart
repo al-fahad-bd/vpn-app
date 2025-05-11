@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
 import 'package:vpn_app/controllers/controller_home.dart';
 import 'package:vpn_app/main.dart';
-import 'package:vpn_app/models/vpn_status.dart';
-import 'package:vpn_app/screens/available_vpn_servers_screen.dart';
-import 'package:vpn_app/vpn_engine/vpn_engine.dart';
-import 'package:vpn_app/widgets/custom_round_widget.dart';
+import 'package:vpn_app/data/models/vpn_status.dart';
+import 'package:vpn_app/modules/screens/available_vpn_servers_screen.dart';
+import 'package:vpn_app/core/services/vpn_engine.dart';
+import 'package:vpn_app/core/widgets/custom_round_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -75,13 +75,15 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: homeController.getRoundButtonColor.withAlpha((0.1 * 255).toInt()),
+                color: homeController.getRoundButtonColor
+                    .withAlpha((0.1 * 255).toInt()),
               ),
               child: Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: homeController.getRoundButtonColor.withAlpha((0.3 * 255).toInt()),
+                  color: homeController.getRoundButtonColor
+                      .withAlpha((0.3 * 255).toInt()),
                 ),
                 child: Container(
                   height: sizeOfScreen.height * .14,

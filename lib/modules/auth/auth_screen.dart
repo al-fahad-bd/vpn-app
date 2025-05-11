@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/error_screen.dart';
-import 'package:vpn_app/screens/forget_password_screen.dart';
-import 'package:vpn_app/screens/home_screen_not_connected.dart';
-import 'package:vpn_app/widgets/custom_elevated_button.dart';
-import 'package:vpn_app/widgets/custom_text_field.dart';
-import 'package:vpn_app/widgets/underline_painter.dart';
+import 'package:vpn_app/modules/screens/error_screen.dart';
+import 'package:vpn_app/modules/screens/forget_password_screen.dart';
+import 'package:vpn_app/modules/screens/home_screen_not_connected.dart';
+import 'package:vpn_app/core/widgets/custom_elevated_button.dart';
+import 'package:vpn_app/core/widgets/custom_text_field.dart';
+import 'package:vpn_app/core/widgets/underline_painter.dart';
 
 import 'widgets/social_login_buttons.dart';
 

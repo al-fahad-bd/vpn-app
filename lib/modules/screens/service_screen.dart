@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/widgets/custom_app_bar.dart';
+import 'package:vpn_app/core/widgets/custom_app_bar.dart';
 
 class ServiceScreen extends StatelessWidget {
   const ServiceScreen({super.key});

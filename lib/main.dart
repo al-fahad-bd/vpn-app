@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
-import 'package:vpn_app/screens/splash_screen.dart';
+import 'package:vpn_app/modules/screens/splash_screen.dart';
+import 'package:vpn_app/core/theme/dark_theme.dart';
+import 'package:vpn_app/core/theme/light_theme.dart';
 
 late Size sizeOfScreen;
 Future<void> main() async {
@@ -24,20 +26,22 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale, // Automatically detects the device locale
       fallbackLocale: const Locale('en', 'US'),
       title: 'Flutter VPN',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          elevation: 3,
-        ),
-      ),
-      themeMode: AppPreferences.isModeDark ? ThemeMode.dark : ThemeMode.light,
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          elevation: 3,
-        ),
-      ),
+      // theme: ThemeData(
+      //   appBarTheme: const AppBarTheme(
+      //     centerTitle: true,
+      //     elevation: 3,
+      //   ),
+      // ),
+      // themeMode: AppPreferences.isModeDark ? ThemeMode.dark : ThemeMode.light,
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   appBarTheme: const AppBarTheme(
+      //     centerTitle: true,
+      //     elevation: 3,
+      //   ),
+      // ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const SplashScreen(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,

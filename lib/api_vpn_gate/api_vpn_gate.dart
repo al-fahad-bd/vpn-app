@@ -87,8 +87,8 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
-import 'package:vpn_app/models/ip_info.dart';
-import 'package:vpn_app/models/vpn_info.dart';
+import 'package:vpn_app/data/models/ip_info.dart';
+import 'package:vpn_app/data/models/vpn_info.dart';
 import 'package:http/http.dart' as http;
 
 class ApiVpnGate {

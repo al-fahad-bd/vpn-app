@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/otp_verification_screen.dart';
-import 'package:vpn_app/widgets/custom_app_bar.dart';
-import 'package:vpn_app/widgets/custom_elevated_button.dart';
-import 'package:vpn_app/widgets/custom_text_field.dart';
+import 'package:vpn_app/modules/screens/otp_verification_screen.dart';
+import 'package:vpn_app/core/widgets/custom_app_bar.dart';
+import 'package:vpn_app/core/widgets/custom_elevated_button.dart';
+import 'package:vpn_app/core/widgets/custom_text_field.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});

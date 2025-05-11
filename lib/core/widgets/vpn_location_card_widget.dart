@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
 import 'package:vpn_app/controllers/controller_home.dart';
 import 'package:vpn_app/main.dart';
-import 'package:vpn_app/models/vpn_info.dart';
-import 'package:vpn_app/vpn_engine/vpn_engine.dart';
+import 'package:vpn_app/data/models/vpn_info.dart';
+import 'package:vpn_app/core/services/vpn_engine.dart';
 
 class VpnLocationCardWidget extends StatelessWidget {
   final VpnInfo vpnInfo;

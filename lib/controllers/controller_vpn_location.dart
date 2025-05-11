@@ -60,7 +60,7 @@
 
 import 'package:get/get.dart';
 import 'package:vpn_app/api_vpn_gate/api_vpn_gate.dart';
-import 'package:vpn_app/models/vpn_info.dart';
+import 'package:vpn_app/data/models/vpn_info.dart';
 
 class ControllerVpnLocation extends GetxController {
   List<VpnInfo> vpnFreeServersAvailableList = [];
