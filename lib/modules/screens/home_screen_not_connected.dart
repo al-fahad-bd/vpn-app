@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/menu_screen/menu_screen.dart';
-import 'package:vpn_app/screens/subscription_screen.dart';
-import 'package:vpn_app/widgets/country_slider.dart';
+import 'package:vpn_app/modules/menu/menu_screen.dart';
+import 'package:vpn_app/modules/screens/subscription_screen.dart';
+import 'package:vpn_app/core/widgets/country_slider.dart';
 
 class VPNHomeScreen extends StatefulWidget {
   const VPNHomeScreen({super.key});

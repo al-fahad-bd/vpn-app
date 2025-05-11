@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/auth_screen/auth_screen.dart';
-import 'package:vpn_app/widgets/custom_elevated_button.dart';
+import 'package:vpn_app/modules/auth/auth_screen.dart';
+import 'package:vpn_app/core/widgets/custom_elevated_button.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

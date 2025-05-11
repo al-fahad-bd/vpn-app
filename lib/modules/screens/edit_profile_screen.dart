@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/screens/home_screen_not_connected.dart';
-import 'package:vpn_app/widgets/custom_app_bar.dart';
-import 'package:vpn_app/widgets/custom_text_field.dart';
+import 'package:vpn_app/modules/screens/home_screen_not_connected.dart';
+import 'package:vpn_app/core/widgets/custom_app_bar.dart';
+import 'package:vpn_app/core/widgets/custom_text_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

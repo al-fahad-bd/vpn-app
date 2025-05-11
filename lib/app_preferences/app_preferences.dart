@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:vpn_app/models/vpn_info.dart';
+import 'package:vpn_app/data/models/vpn_info.dart';
 
 class AppPreferences {
   static late Box boxOfData;
