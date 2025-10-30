@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:vpn_app/modules/menu/menu_screen.dart';
+import 'package:vpn_app/modules/screens/speed_test_screen.dart';
 import 'package:vpn_app/modules/screens/subscription_screen.dart';
 import 'package:vpn_app/core/widgets/country_slider.dart';
 
@@ -164,76 +165,79 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                decoration: BoxDecoration(
-                  color: const Color(0xff3b3a48),
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: const Color(0xff4f4e5b),
-                    width: 1,
+              GestureDetector(
+                onTap: () => Get.to(() => const SpeedTestScreen()),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff3b3a48),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: const Color(0xff4f4e5b),
+                      width: 1,
+                    ),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color(0xff4f4e5b),
-                          child: SvgPicture.asset(
-                            'assets/images/world.svg',
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.04,
-                            fit: BoxFit.cover,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: const Color(0xff4f4e5b),
+                            child: SvgPicture.asset(
+                              'assets/images/world.svg',
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.04,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          // Icon(Icons.wordpress_outlined, color: Colors.white),
+                          const SizedBox(width: 10),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Faster Server",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                "212.369.56.87",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(9),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xff4f4e5b),
+                            width: 1,
                           ),
                         ),
-                        // Icon(Icons.wordpress_outlined, color: Colors.white),
-                        const SizedBox(width: 10),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Faster Server",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Gilroy',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              "212.369.56.87",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontFamily: 'Gilroy',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(9),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xff4f4e5b),
-                          width: 1,
+                        // backgroundColor: Colors.transparent,
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 18,
                         ),
                       ),
-                      // backgroundColor: Colors.transparent,
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 100),
