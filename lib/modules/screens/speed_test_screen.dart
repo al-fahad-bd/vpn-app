@@ -24,7 +24,7 @@ class SpeedTestScreen extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
@@ -133,17 +133,17 @@ class SpeedTestScreen extends StatelessWidget {
                           height: 280,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               colors: [
-                                const Color(0xFF8B7CE8),
-                                const Color(0xFF5B4CC7),
+                                Color(0xFF8B7CE8),
+                                Color(0xFF5B4CC7),
                               ],
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.black.withValues(alpha: 0.2),
                                 blurRadius: 20,
                                 spreadRadius: 5,
                               ),
@@ -191,8 +191,8 @@ class SpeedTestScreen extends StatelessWidget {
             )),
 
             // Network Info Cards
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
               child: Row(
                 children: [
                   Expanded(
@@ -201,8 +201,9 @@ class SpeedTestScreen extends StatelessWidget {
                       title: 'Sol-BD',
                       subtitle: 'iPhone 13 Pro Max',
                     ),
+                    
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     child: _NetworkCard(
                       icon: Icons.wifi,
@@ -222,7 +223,7 @@ class SpeedTestScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -283,10 +284,10 @@ class SpeedGauge extends StatelessWidget {
   final bool isTesting;
 
   const SpeedGauge({
-    Key? key,
+    super.key,
     required this.speed,
     required this.isTesting,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
