@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'dart:async';
@@ -54,7 +53,7 @@ class SpeedTestController extends GetxController {
         showResults.value = true;
         testPhase.value = '';
         currentSpeed.value = downloadSpeed.value;
-        
+
         // Update ping and jitter
         ping.value = Random().nextInt(50) + 150;
         jitter.value = Random().nextInt(50) + 150;
@@ -65,14 +64,14 @@ class SpeedTestController extends GetxController {
   double _simulateSpeed(double minSpeed, double maxSpeed) {
     final random = Random();
     final step = _testStep % 30;
-    
+
     // Create a smooth acceleration curve
     final progress = step / 30.0;
     final easedProgress = _easeInOutCubic(progress);
-    
+
     final targetSpeed = minSpeed + (maxSpeed - minSpeed) * easedProgress;
     final variation = (random.nextDouble() - 0.5) * 5;
-    
+
     return (targetSpeed + variation).clamp(0, 100);
   }
 

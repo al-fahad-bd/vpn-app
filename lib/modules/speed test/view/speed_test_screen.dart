@@ -1,9 +1,12 @@
 // Speed Test Screen
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/controllers/speed_test_controller';
+import 'package:vpn_app/modules/speed test/controller/speed_test_controller.dart';
+import 'package:vpn_app/core/const/icons_path.dart';
 
 class SpeedTestScreen extends StatelessWidget {
   const SpeedTestScreen({super.key});
@@ -28,7 +31,8 @@ class SpeedTestScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          color: Colors.white),
                       onPressed: () => Get.back(),
                     ),
                   ),
@@ -53,142 +57,152 @@ class SpeedTestScreen extends StatelessWidget {
 
             // Download and Upload Display
             Obx(() => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Download
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Icon(Icons.arrow_downward, color: Colors.white70, size: 32),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Download',
-                          style: TextStyle(color: Colors.white70, fontSize: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Download
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(IconsPath.download,
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.white70, BlendMode.srcIn),
+                                height: 32),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Download',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              controller.showResults.value
+                                  ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbp/s'
+                                  : '0.00 Mbp/s',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          controller.showResults.value
-                              ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                              : '0.00 Mbp/s',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+
+                      Container(
+                        width: 2,
+                        height: 80,
+                        color: Colors.white30,
+                      ),
+
+                      // Upload
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(IconsPath.upload,
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.white70, BlendMode.srcIn),
+                                height: 32),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Upload',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              controller.showResults.value
+                                  ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbp/s'
+                                  : '0.00 Mbp/s',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  
-                  Container(
-                    width: 2,
-                    height: 80,
-                    color: Colors.white30,
-                  ),
-                  
-                  // Upload
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Icon(Icons.arrow_upward, color: Colors.white70, size: 32),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Upload',
-                          style: TextStyle(color: Colors.white70, fontSize: 16),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          controller.showResults.value
-                              ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                              : '0.00 Mbp/s',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )),
+                )),
 
             const SizedBox(height: 40),
 
             // Speed Gauge
             Expanded(
               child: Center(
-                child: Obx(() => controller.isTesting.value || controller.showResults.value
-                    ? SpeedGauge(
-                        speed: controller.currentSpeed.value,
-                        isTesting: controller.isTesting.value,
-                      )
-                    : GestureDetector(
-                        onTap: controller.startSpeedTest,
-                        child: Container(
-                          width: 280,
-                          height: 280,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Color(0xFF8B7CE8),
-                                Color(0xFF5B4CC7),
-                              ],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 20,
-                                spreadRadius: 5,
+                child: Obx(() =>
+                    controller.isTesting.value || controller.showResults.value
+                        ? SpeedGauge(
+                            speed: controller.currentSpeed.value,
+                            isTesting: controller.isTesting.value,
+                          )
+                        : GestureDetector(
+                            onTap: controller.startSpeedTest,
+                            child: Container(
+                              width: 280,
+                              height: 280,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF8B7CE8),
+                                    Color(0xFF5B4CC7),
+                                  ],
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.2),
+                                    blurRadius: 20,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'GO',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 72,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 4,
+                              child: const Center(
+                                child: Text(
+                                  'GO',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 72,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 4,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      )),
+                          )),
               ),
             ),
 
             // Info Row
             Obx(() => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _InfoItem(
-                    icon: Icons.signal_cellular_alt,
-                    label: 'Ping - ${controller.ping.value}ms',
-                    color: Colors.green,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _InfoItem(
+                        icon: IconsPath.ping,
+                        label: 'Ping - ${controller.ping.value}ms',
+                        color: Colors.green,
+                      ),
+                      _InfoItem(
+                        icon: IconsPath.jitter,
+                        label: 'Jitter - ${controller.jitter.value}ms',
+                        color: Colors.pink,
+                      ),
+                      const _InfoItem(
+                        icon: IconsPath.ip,
+                        label: 'IP - Public',
+                        color: Colors.orange,
+                      ),
+                    ],
                   ),
-                  _InfoItem(
-                    icon: Icons.show_chart,
-                    label: 'Jitter - ${controller.jitter.value}ms',
-                    color: Colors.pink,
-                  ),
-                  const _InfoItem(
-                    icon: Icons.public,
-                    label: 'IP - Public',
-                    color: Colors.orange,
-                  ),
-                ],
-              ),
-            )),
+                )),
 
             // Network Info Cards
             const Padding(
@@ -197,16 +211,15 @@ class SpeedTestScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _NetworkCard(
-                      icon: Icons.wifi,
+                      icon: IconsPath.wifi,
                       title: 'Sol-BD',
                       subtitle: 'iPhone 13 Pro Max',
                     ),
-                    
                   ),
                   SizedBox(width: 16),
                   Expanded(
                     child: _NetworkCard(
-                      icon: Icons.wifi,
+                      icon: IconsPath.wifi,
                       title: 'Nerscope',
                       subtitle: 'Sylhet, BD',
                     ),
@@ -266,7 +279,8 @@ class SpeedTestScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
+                    const Icon(Icons.arrow_forward_ios,
+                        color: Colors.white, size: 20),
                   ],
                 ),
               ),
@@ -433,7 +447,7 @@ class SpeedGaugePainter extends CustomPainter {
 }
 
 class _InfoItem extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String label;
   final Color color;
 
@@ -448,7 +462,7 @@ class _InfoItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: color, size: 16),
+        SvgPicture.asset(icon, height: 16),
         const SizedBox(width: 4),
         Text(
           label,
@@ -463,7 +477,7 @@ class _InfoItem extends StatelessWidget {
 }
 
 class _NetworkCard extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String title;
   final String subtitle;
 
@@ -478,13 +492,13 @@ class _NetworkCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: Colors.white, size: 24),
+          SvgPicture.asset(icon, height: 24),
           const SizedBox(height: 12),
           Text(
             title,

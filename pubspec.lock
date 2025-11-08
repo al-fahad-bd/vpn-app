@@ -119,10 +119,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: c200fd79c918a40c5cd50ea0877fa13f81bdaf6f0a5d3dbcc2a13e3285d6aa1b
+      sha256: "055de8921be7b8e8b98a233c7a5ef84b3a6fcc32f46f1ebf5b9bb3576d108355"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.17"
+    version: "2.2.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -487,4 +487,4 @@ packages:
     version: "6.5.0"
 sdks:
   dart: ">=3.8.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  flutter: ">=3.29.0"
