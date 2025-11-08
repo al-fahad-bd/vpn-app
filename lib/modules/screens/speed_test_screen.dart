@@ -233,13 +233,14 @@ class SpeedTestScreen extends StatelessWidget {
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                            'https://flagcdn.com/w80/gb.png',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
+                        // image: const DecorationImage(
+                        //   image: NetworkImage(
+                        //     'https://flagcdn.com/w80/gb.png',
+                        //   ),
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
+                      child: Image.asset('assets/countryFlags/gb-nir.png'),
                     ),
                     const SizedBox(width: 16),
                     const Expanded(
@@ -296,28 +297,28 @@ class SpeedGauge extends StatelessWidget {
       height: 280,
       child: CustomPaint(
         painter: SpeedGaugePainter(speed: speed, isTesting: isTesting),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                speed.toStringAsFixed(2),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text(
-                'Mbps',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-        ),
+        // child: Center(
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Text(
+        //         speed.toStringAsFixed(2),
+        //         style: const TextStyle(
+        //           color: Colors.white,
+        //           fontSize: 48,
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //       ),
+        //       const Text(
+        //         'Mbps',
+        //         style: TextStyle(
+        //           color: Colors.white70,
+        //           fontSize: 20,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
@@ -343,7 +344,7 @@ class SpeedGaugePainter extends CustomPainter {
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      -pi * 0.75,
+      -pi * 1.25,
       pi * 1.5,
       false,
       backgroundPaint,
@@ -355,13 +356,13 @@ class SpeedGaugePainter extends CustomPainter {
         colors: [Color(0xFF9B8CE8), Color(0xFF7B6CD8)],
       ).createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 28
+      ..strokeWidth = 25
       ..strokeCap = StrokeCap.round;
 
     final sweepAngle = (speed / 100) * pi * 1.5;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      -pi * 0.75,
+      -pi * 1.25,
       sweepAngle,
       false,
       progressPaint,
@@ -377,17 +378,17 @@ class SpeedGaugePainter extends CustomPainter {
       textAlign: TextAlign.center,
     );
 
-    final markers = [0, 5, 10, 20, 30, 60, 100];
+    final markers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     for (var marker in markers) {
-      final angle = -pi * 0.75 + (marker / 100) * pi * 1.5;
-      final x = center.dx + (radius - 45) * cos(angle);
-      final y = center.dy + (radius - 45) * sin(angle);
+      final angle = -pi * 1.25 + (marker / 100) * pi * 1.5;
+      final x = center.dx + (radius - 35) * cos(angle);
+      final y = center.dy + (radius - 35) * sin(angle);
 
       textPainter.text = TextSpan(
         text: marker.toString(),
         style: const TextStyle(
           color: Colors.white70,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
       );
@@ -399,7 +400,7 @@ class SpeedGaugePainter extends CustomPainter {
     }
 
     // Draw needle
-    final needleAngle = -pi * 0.75 + sweepAngle;
+    final needleAngle = -pi * 1.70 + sweepAngle;
     final needlePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
