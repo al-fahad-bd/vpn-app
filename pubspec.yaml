@@ -46,6 +46,8 @@ dependencies:
   lottie: ^3.2.0
   pinput: ^5.0.1
   lucide_icons: ^0.257.0
+  flutter_internet_speed_test: ^1.5.0
+  connectivity_plus: ^5.0.2
 
 dev_dependencies:
   flutter_test:

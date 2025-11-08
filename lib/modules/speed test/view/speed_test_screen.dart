@@ -1,7 +1,4 @@
-// Speed Test Screen
-
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -78,8 +75,8 @@ class SpeedTestScreen extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               controller.showResults.value
-                                  ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                                  : '0.00 Mbp/s',
+                                  ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : '0.00 Mbps',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -113,8 +110,8 @@ class SpeedTestScreen extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               controller.showResults.value
-                                  ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                                  : '0.00 Mbp/s',
+                                  ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : '0.00 Mbps',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -133,48 +130,52 @@ class SpeedTestScreen extends StatelessWidget {
             // Speed Gauge
             Expanded(
               child: Center(
-                child: Obx(() =>
-                    controller.isTesting.value || controller.showResults.value
-                        ? SpeedGauge(
-                            speed: controller.currentSpeed.value,
-                            isTesting: controller.isTesting.value,
-                          )
-                        : GestureDetector(
-                            onTap: controller.startSpeedTest,
-                            child: Container(
-                              width: 280,
-                              height: 280,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: const LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Color(0xFF8B7CE8),
-                                    Color(0xFF5B4CC7),
-                                  ],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.2),
-                                    blurRadius: 20,
-                                    spreadRadius: 5,
-                                  ),
-                                ],
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  'GO',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 72,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 4,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )),
+                child: Obx(() {
+                  if (controller.isTesting.value || controller.showResults.value) {
+                    return SpeedGauge(
+                      speed: controller.currentSpeed.value,
+                      isTesting: controller.isTesting.value,
+                      testPhase: controller.testPhase.value,
+                    );
+                  }
+                  
+                  return GestureDetector(
+                    onTap: controller.startSpeedTest,
+                    child: Container(
+                      width: 280,
+                      height: 280,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFF8B7CE8),
+                            Color(0xFF5B4CC7),
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'GO',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 72,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 4,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ),
 
@@ -246,12 +247,6 @@ class SpeedTestScreen extends StatelessWidget {
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        // image: const DecorationImage(
-                        //   image: NetworkImage(
-                        //     'https://flagcdn.com/w80/gb.png',
-                        //   ),
-                        //   fit: BoxFit.cover,
-                        // ),
                       ),
                       child: Image.asset('assets/countryFlags/gb-nir.png'),
                     ),
@@ -297,11 +292,13 @@ class SpeedTestScreen extends StatelessWidget {
 class SpeedGauge extends StatelessWidget {
   final double speed;
   final bool isTesting;
+  final String testPhase;
 
   const SpeedGauge({
     super.key,
     required this.speed,
     required this.isTesting,
+    required this.testPhase,
   });
 
   @override
@@ -309,32 +306,63 @@ class SpeedGauge extends StatelessWidget {
     return SizedBox(
       width: 280,
       height: 280,
-      child: CustomPaint(
-        painter: SpeedGaugePainter(speed: speed, isTesting: isTesting),
-        // child: Center(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Text(
-        //         speed.toStringAsFixed(2),
-        //         style: const TextStyle(
-        //           color: Colors.white,
-        //           fontSize: 48,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //       const Text(
-        //         'Mbps',
-        //         style: TextStyle(
-        //           color: Colors.white70,
-        //           fontSize: 20,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: const Size(280, 280),
+            painter: SpeedGaugePainter(
+              speed: speed,
+              isTesting: isTesting,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                speed.toStringAsFixed(2),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                'Mbps',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 20,
+                ),
+              ),
+              if (isTesting && testPhase.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    _getPhaseText(testPhase),
+                    style: const TextStyle(
+                      color: Colors.white60,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
+  }
+
+  String _getPhaseText(String phase) {
+    switch (phase) {
+      case 'ping':
+        return 'Measuring Ping...';
+      case 'download':
+        return 'Testing Download...';
+      case 'upload':
+        return 'Testing Upload...';
+      default:
+        return '';
+    }
   }
 }
 
@@ -373,7 +401,10 @@ class SpeedGaugePainter extends CustomPainter {
       ..strokeWidth = 25
       ..strokeCap = StrokeCap.round;
 
-    final sweepAngle = (speed / 100) * pi * 1.5;
+    // Calculate sweep angle based on speed (0-100 Mbps scale)
+    final normalizedSpeed = speed.clamp(0.0, 100.0);
+    final sweepAngle = (normalizedSpeed / 100) * pi * 1.5;
+    
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi * 1.25,
@@ -383,10 +414,6 @@ class SpeedGaugePainter extends CustomPainter {
     );
 
     // Draw scale markers
-    final markerPaint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2;
-
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
@@ -414,7 +441,7 @@ class SpeedGaugePainter extends CustomPainter {
     }
 
     // Draw needle
-    final needleAngle = -pi * 1.70 + sweepAngle;
+    final needleAngle = -pi * 1.25 + sweepAngle;
     final needlePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
