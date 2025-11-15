@@ -91,7 +91,7 @@ class SpeedTestController extends GetxController {
             'Download: ${download.transferRate.toStringAsFixed(2)} ${download.unit.name}\n'
                 'Upload: ${upload.transferRate.toStringAsFixed(2)} ${upload.unit.name}',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green.withOpacity(0.8),
+            backgroundColor: Colors.green.withValues(alpha: 0.8),
             colorText: Colors.white,
             duration: const Duration(seconds: 3),
           );
@@ -105,7 +105,7 @@ class SpeedTestController extends GetxController {
             'Error',
             'Failed to complete speed test: $errorMessage',
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red.withOpacity(0.8),
+            backgroundColor: Colors.red.withValues(alpha: 0.8),
             colorText: Colors.white,
           );
         },
@@ -129,7 +129,7 @@ class SpeedTestController extends GetxController {
         'Error',
         'Failed to start speed test: $e',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.8),
+        backgroundColor: Colors.red.withValues(alpha: 0.8),
         colorText: Colors.white,
       );
     }
