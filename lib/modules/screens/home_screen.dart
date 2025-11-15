@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vpn_app/app_preferences/app_preferences.dart';
-import 'package:vpn_app/controllers/controller_home.dart';
+import 'package:vpn_app/modules/controllers/controller_home.dart';
 import 'package:vpn_app/main.dart';
 import 'package:vpn_app/data/models/vpn_status.dart';
 import 'package:vpn_app/modules/screens/available_vpn_servers_screen.dart';

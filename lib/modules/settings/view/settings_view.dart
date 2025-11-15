@@ -19,7 +19,7 @@ class SettingsView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .start,
           children: [
             _buildSwitchTile(
               'Data Mode',
@@ -91,7 +91,7 @@ class SettingsView extends StatelessWidget {
             Switch(
               value: value.value,
               onChanged: onChanged,
-              activeColor: Colors.white,
+              activeThumbColor: Colors.white,
               activeTrackColor: const Color(0xff34c759),
               inactiveTrackColor: const Color(0xff131314),
               inactiveThumbColor: Colors.white,

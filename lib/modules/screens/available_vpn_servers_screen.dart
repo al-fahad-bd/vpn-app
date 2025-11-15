@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/controllers/controller_vpn_location.dart';
+import 'package:vpn_app/modules/controllers/controller_vpn_location.dart';
 import 'package:vpn_app/core/widgets/vpn_location_card_widget.dart';
 
 class AvailableVpnServersScreen extends StatelessWidget {

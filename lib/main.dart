@@ -7,6 +7,7 @@ import 'package:vpn_app/core/theme/dark_theme.dart';
 import 'package:vpn_app/core/theme/light_theme.dart';
 
 late Size sizeOfScreen;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

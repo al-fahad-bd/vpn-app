@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vpn_app/controllers/speed_test_controller';
+import 'package:vpn_app/modules/controllers/speed_test_controller.dart';
 
 class SpeedTestScreen extends StatelessWidget {
   const SpeedTestScreen({super.key});
@@ -15,268 +15,371 @@ class SpeedTestScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF6B5CE7),
       body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                      onPressed: () => Get.back(),
-                    ),
-                  ),
-                  const Expanded(
-                    child: Center(
-                      child: Text(
-                        'Speed Test',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Download and Upload Display
-            Obx(() => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Download
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Icon(Icons.arrow_downward, color: Colors.white70, size: 32),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Download',
-                          style: TextStyle(color: Colors.white70, fontSize: 16),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          controller.showResults.value
-                              ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                              : '0.00 Mbp/s',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  
-                  Container(
-                    width: 2,
-                    height: 80,
-                    color: Colors.white30,
-                  ),
-                  
-                  // Upload
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Icon(Icons.arrow_upward, color: Colors.white70, size: 32),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Upload',
-                          style: TextStyle(color: Colors.white70, fontSize: 16),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          controller.showResults.value
-                              ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbp/s'
-                              : '0.00 Mbp/s',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )),
-
-            const SizedBox(height: 40),
-
-            // Speed Gauge
-            Expanded(
-              child: Center(
-                child: Obx(() => controller.isTesting.value || controller.showResults.value
-                    ? SpeedGauge(
-                        speed: controller.currentSpeed.value,
-                        isTesting: controller.isTesting.value,
-                      )
-                    : GestureDetector(
-                        onTap: controller.startSpeedTest,
-                        child: Container(
-                          width: 280,
-                          height: 280,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Color(0xFF8B7CE8),
-                                Color(0xFF5B4CC7),
-                              ],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 20,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'GO',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 72,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 4,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )),
-              ),
-            ),
-
-            // Info Row
-            Obx(() => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _InfoItem(
-                    icon: Icons.signal_cellular_alt,
-                    label: 'Ping - ${controller.ping.value}ms',
-                    color: Colors.green,
-                  ),
-                  _InfoItem(
-                    icon: Icons.show_chart,
-                    label: 'Jitter - ${controller.jitter.value}ms',
-                    color: Colors.pink,
-                  ),
-                  const _InfoItem(
-                    icon: Icons.public,
-                    label: 'IP - Public',
-                    color: Colors.orange,
-                  ),
-                ],
-              ),
-            )),
-
-            // Network Info Cards
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _NetworkCard(
-                      icon: Icons.wifi,
-                      title: 'Sol-BD',
-                      subtitle: 'iPhone 13 Pro Max',
-                    ),
-                    
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: _NetworkCard(
-                      icon: Icons.wifi,
-                      title: 'Nerscope',
-                      subtitle: 'Sylhet, BD',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Server Location
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        // image: const DecorationImage(
-                        //   image: NetworkImage(
-                        //     'https://flagcdn.com/w80/gb.png',
-                        //   ),
-                        //   fit: BoxFit.cover,
-                        // ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                // Header
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                          onPressed: () => Get.back(),
+                        ),
                       ),
-                      child: Image.asset('assets/countryFlags/gb-nir.png'),
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'United Kingdom',
+                      const Expanded(
+                        child: Center(
+                          child: Text(
+                            'Speed Test',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            '212.369.56.87',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 48),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Download and Upload Display
+                Obx(() => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Download
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.arrow_downward,
+                              color: controller.testPhase.value == 'download'
+                                  ? Colors.white
+                                  : Colors.white70,
+                              size: 32,
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Download',
+                              style: TextStyle(color: Colors.white70, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              controller.showResults.value || controller.downloadSpeed.value > 0
+                                  ? '${controller.downloadSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : controller.testPhase.value == 'download'
+                                  ? '${controller.currentSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : '0.00 Mbps',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      Container(
+                        width: 2,
+                        height: 80,
+                        color: Colors.white30,
+                      ),
+                      
+                      // Upload
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.arrow_upward,
+                              color: controller.testPhase.value == 'upload'
+                                  ? Colors.white
+                                  : Colors.white70,
+                              size: 32,
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              'Upload',
+                              style: TextStyle(color: Colors.white70, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              controller.showResults.value || controller.uploadSpeed.value > 0
+                                  ? '${controller.uploadSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : controller.testPhase.value == 'upload'
+                                  ? '${controller.currentSpeed.value.toStringAsFixed(2)} Mbps'
+                                  : '0.00 Mbps',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+
+                const SizedBox(height: 10),
+
+                // Speed Gauge
+                Flexible(
+                  child: Center(
+                    child: Obx(() {
+                      if (controller.isTesting.value) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SpeedGauge(
+                              speed: controller.currentSpeed.value,
+                              isTesting: controller.isTesting.value,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              _getTestPhaseText(controller.testPhase.value),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            TextButton.icon(
+                              onPressed: controller.cancelTest,
+                              icon: const Icon(Icons.close, color: Colors.white),
+                              label: const Text(
+                                'Cancel',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else if (controller.showResults.value) {
+                        return SpeedGauge(
+                          speed: controller.downloadSpeed.value,
+                          isTesting: false,
+                        );
+                      } else {
+                        return GestureDetector(
+                          onTap: controller.startSpeedTest,
+                          child: Container(
+                            width: 280,
+                            height: 280,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFF8B7CE8),
+                                  Color(0xFF5B4CC7),
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 20,
+                                  spreadRadius: 5,
+                                ),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'GO',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 72,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 4,
+                                ),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
-                  ],
+                        );
+                      }
+                    }),
+                  ),
                 ),
-              ),
-            ),
 
-            const SizedBox(height: 24),
-          ],
+                // Progress indicator
+                Obx(() => controller.isTesting.value
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  controller.testPhase.value == 'download'
+                                      ? 'Download Progress'
+                                      : controller.testPhase.value == 'upload'
+                                      ? 'Upload Progress'
+                                      : 'Initializing...',
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  controller.testPhase.value == 'download'
+                                      ? '${controller.downloadProgress.value.toStringAsFixed(0)}%'
+                                      : controller.testPhase.value == 'upload'
+                                      ? '${controller.uploadProgress.value.toStringAsFixed(0)}%'
+                                      : '',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: LinearProgressIndicator(
+                                value: controller.testPhase.value == 'download'
+                                    ? controller.downloadProgress.value / 100
+                                    : controller.testPhase.value == 'upload'
+                                    ? controller.uploadProgress.value / 100
+                                    : 0,
+                                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                                minHeight: 8,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(height: 48)),
+
+                // Network Info Cards
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _NetworkCard(
+                          icon: Icons.wifi,
+                          title: 'Sol-BD',
+                          subtitle: 'iPhone 13 Pro Max',
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: _NetworkCard(
+                          icon: Icons.cell_tower,
+                          title: 'Network',
+                          subtitle: 'Sylhet, BD',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Server Location
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Image.asset('assets/countryFlags/gb-nir.png'),
+                        ),
+                        const SizedBox(width: 16),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Test Server',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Auto-selected',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+            );
+    },
+    )));
+  }
+
+  String _getTestPhaseText(String phase) {
+    switch (phase) {
+      case 'initializing':
+        return 'Initializing...';
+      case 'selecting_server':
+        return 'Selecting Server...';
+      case 'download':
+        return 'Testing Download Speed';
+      case 'upload':
+        return 'Testing Upload Speed';
+      default:
+        return 'Running Test...';
+    }
   }
 }
 
@@ -295,30 +398,35 @@ class SpeedGauge extends StatelessWidget {
     return SizedBox(
       width: 280,
       height: 280,
-      child: CustomPaint(
-        painter: SpeedGaugePainter(speed: speed, isTesting: isTesting),
-        // child: Center(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Text(
-        //         speed.toStringAsFixed(2),
-        //         style: const TextStyle(
-        //           color: Colors.white,
-        //           fontSize: 48,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //       const Text(
-        //         'Mbps',
-        //         style: TextStyle(
-        //           color: Colors.white70,
-        //           fontSize: 20,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+      child: Stack(
+        children: [
+          CustomPaint(
+            size: const Size(280, 280),
+            painter: SpeedGaugePainter(speed: speed, isTesting: isTesting),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  speed.toStringAsFixed(2),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  'Mbps',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -344,8 +452,8 @@ class SpeedGaugePainter extends CustomPainter {
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      -pi * 1.25,
-      pi * 1.5,
+      -pi * 1.30,
+      pi * 1.60,
       false,
       backgroundPaint,
     );
@@ -356,23 +464,21 @@ class SpeedGaugePainter extends CustomPainter {
         colors: [Color(0xFF9B8CE8), Color(0xFF7B6CD8)],
       ).createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 25
+      ..strokeWidth = 21
       ..strokeCap = StrokeCap.round;
 
-    final sweepAngle = (speed / 100) * pi * 1.5;
+    // Clamp speed to a maximum of 100 for display purposes
+    final displaySpeed = speed > 100 ? 100 : speed;
+    final sweepAngle = (displaySpeed / 100) * pi * 1.5;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      -pi * 1.25,
+      -pi * 1.30,
       sweepAngle,
       false,
       progressPaint,
     );
 
     // Draw scale markers
-    final markerPaint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2;
-
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
@@ -432,36 +538,6 @@ class SpeedGaugePainter extends CustomPainter {
   }
 }
 
-class _InfoItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-
-  const _InfoItem({
-    required this.icon,
-    required this.label,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: color, size: 16),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white70,
-            fontSize: 12,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class _NetworkCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -478,7 +554,7 @@ class _NetworkCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
