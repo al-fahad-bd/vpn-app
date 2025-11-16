@@ -42,7 +42,7 @@ dependencies:
   csv: ^6.0.0
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^2.0.17
+  flutter_svg: ^2.2.2
   lottie: ^3.2.0
   pinput: ^5.0.1
   lucide_icons: ^0.257.0
@@ -75,6 +75,7 @@ flutter:
     - assets/countryFlags/
     - assets/images/
     - assets/animations/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

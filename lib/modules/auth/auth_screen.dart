@@ -24,17 +24,14 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: DefaultTabController(
             length: 2, // Two tabs (Login & Sign Up)
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 60),
                   const Text(
                     "Welcome Back!",
                     style: TextStyle(
@@ -55,7 +52,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 32),
                   // TabBar for switching between Login & Sign Up
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 48),
@@ -89,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   // TabBarView for Login & Sign Up Forms
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.70,
                     child: TabBarView(
                       children: [
                         _buildLoginForm(),
@@ -107,180 +104,189 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Widget _buildLoginForm() {
-    return Column(
-      children: [
-        SocialLoginButtons(
-          buttons: [
-            {
-              'text': "Continue with Google",
-              'iconPath': "assets/images/google.svg",
-              'onPressed': () {
-                debugPrint("Google button pressed");
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          SocialLoginButtons(
+            buttons: [
+              {
+                'text': "Continue with Google",
+                'iconPath': "assets/images/google.svg",
+                'onPressed': () {
+                  debugPrint("Google button pressed");
+                },
               },
-            },
-            {
-              'text': "Continue with Apple",
-              'iconPath': "assets/images/apple.svg",
-              'onPressed': () {
-                debugPrint("Apple button pressed");
+              {
+                'text': "Continue with Apple",
+                'iconPath': "assets/images/apple.svg",
+                'onPressed': () {
+                  debugPrint("Apple button pressed");
+                },
               },
-            },
-          ],
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        const Row(
-          children: [
-            Expanded(
-              child: Divider(
-                color: Colors.white38, // Match the UI design
-                thickness: 1,
-                endIndent: 10, // Spacing from text
-              ),
-            ),
-            Text(
-              "Or better yet...",
-              style: TextStyle(color: Colors.white54, fontSize: 14),
-            ),
-            Expanded(
-              child: Divider(
-                color: Colors.white38,
-                thickness: 1,
-                indent: 10, // Spacing from text
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        const CustomTextField(
-          hint: "Email Address",
-          iconPath: "assets/images/email.svg",
-        ),
-        const SizedBox(height: 16),
-        const CustomTextField(
-          hint: "Password",
-          iconPath: "assets/images/lock.svg",
-          isPassword: true,
-        ),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.center,
-          child: TextButton(
-            onPressed: () {
-              Get.to(() => const ForgetPasswordScreen());
-            },
-            child: Stack(
-              children: [
-                const Text(
-                  "Forget Password?",
-                  style: TextStyle(
-                    fontFamily: 'Gilroy',
-                    color: Colors.white,
-                  ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const Row(
+            children: [
+              Expanded(
+                child: Divider(
+                  color: Colors.white38, // Match the UI design
+                  thickness: 1,
+                  endIndent: 10, // Spacing from text
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: -1, // Adjust this value to move the underline lower
-                  child: CustomPaint(
-                    size: const Size(
-                      double.infinity,
-                      2,
+              ),
+              Text(
+                "Or better yet...",
+                style: TextStyle(color: Colors.white54, fontSize: 14),
+              ),
+              Expanded(
+                child: Divider(
+                  color: Colors.white38,
+                  thickness: 1,
+                  indent: 10, // Spacing from text
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const CustomTextField(
+            hint: "Email Address",
+            iconPath: "assets/images/email.svg",
+          ),
+          const SizedBox(height: 16),
+          const CustomTextField(
+            hint: "Password",
+            iconPath: "assets/images/lock.svg",
+            isPassword: true,
+          ),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                Get.to(() => const ForgetPasswordScreen());
+              },
+              child: Stack(
+                children: [
+                  const Text(
+                    "Forget Password?",
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      color: Colors.white,
                     ),
-                    painter: UnderlinePainter(),
                   ),
-                ),
-              ],
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: -1, // Adjust this value to move the underline lower
+                    child: CustomPaint(
+                      size: const Size(
+                        double.infinity,
+                        2,
+                      ),
+                      painter: UnderlinePainter(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 16),
-        CustomElevatedButton(
-          text: 'Log In',
-          onPressed: () {
-            Get.to(
-              () => const VPNHomeScreen(),
-            );
-          },
-          buttonWidth: MediaQuery.of(context).size.width * 0.9,
-        ),
-      ],
+          SizedBox(height: MediaQuery.of(context).size.height * 0.062),
+          CustomElevatedButton(
+            text: 'Log In',
+            onPressed: () {
+              Get.to(
+                () => const VPNHomeScreen(),
+              );
+            },
+            buttonWidth: MediaQuery.of(context).size.width * 0.9,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildSignUpForm() {
-    return Column(
-      children: [
-        SocialLoginButtons(
-          buttons: [
-            {
-              'text': "Continue with Google",
-              'iconPath': "assets/images/google.svg",
-              'onPressed': () {
-                debugPrint("Google button pressed");
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SocialLoginButtons(
+            buttons: [
+              {
+                'text': "Continue with Google",
+                'iconPath': "assets/images/google.svg",
+                'onPressed': () {
+                  debugPrint("Google button pressed");
+                },
               },
-            },
-            {
-              'text': "Continue with Apple",
-              'iconPath': "assets/images/apple.svg",
-              'onPressed': () {
-                debugPrint("Apple button pressed");
+              {
+                'text': "Continue with Apple",
+                'iconPath': "assets/images/apple.svg",
+                'onPressed': () {
+                  debugPrint("Apple button pressed");
+                },
               },
+            ],
+          ),
+          // _buildSocialLoginButtons(),
+          const SizedBox(height: 24),
+          const Row(
+            children: [
+              Expanded(
+                child: Divider(
+                  color: Colors.white38, // Match the UI design
+                  thickness: 1,
+                  endIndent: 10, // Spacing from text
+                ),
+              ),
+              Text(
+                "Or better yet...",
+                style: TextStyle(color: Colors.white54, fontSize: 14),
+              ),
+              Expanded(
+                child: Divider(
+                  color: Colors.white38,
+                  thickness: 1,
+                  indent: 10, // Spacing from text
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          const CustomTextField(
+            hint: "Email Address",
+            iconPath: "assets/images/email.svg",
+          ),
+          const SizedBox(height: 16),
+          const CustomTextField(
+            hint: "Password",
+            iconPath: "assets/images/lock.svg",
+            isPassword: true,
+          ),
+          const SizedBox(height: 16),
+          const CustomTextField(
+            hint: "Confirm Password",
+            iconPath: "assets/images/lock.svg",
+            isPassword: true,
+          ),
+          const SizedBox(height: 32),
+          CustomElevatedButton(
+            text: 'Sign Up',
+            onPressed: () {
+              Get.to(() => const ErrorScreen());
             },
-          ],
-        ),
-        // _buildSocialLoginButtons(),
-        const SizedBox(height: 24),
-        const Row(
-          children: [
-            Expanded(
-              child: Divider(
-                color: Colors.white38, // Match the UI design
-                thickness: 1,
-                endIndent: 10, // Spacing from text
-              ),
-            ),
-            Text(
-              "Or better yet...",
-              style: TextStyle(color: Colors.white54, fontSize: 14),
-            ),
-            Expanded(
-              child: Divider(
-                color: Colors.white38,
-                thickness: 1,
-                indent: 10, // Spacing from text
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        const CustomTextField(
-          hint: "Email Address",
-          iconPath: "assets/images/email.svg",
-        ),
-        const SizedBox(height: 16),
-        const CustomTextField(
-          hint: "Password",
-          iconPath: "assets/images/lock.svg",
-          isPassword: true,
-        ),
-        const SizedBox(height: 16),
-        const CustomTextField(
-          hint: "Confirm Password",
-          iconPath: "assets/images/lock.svg",
-          isPassword: true,
-        ),
-        const SizedBox(height: 32),
-        CustomElevatedButton(
-          text: 'Sign Up',
-          onPressed: () {
-            Get.to(() => const ErrorScreen());
-          },
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 

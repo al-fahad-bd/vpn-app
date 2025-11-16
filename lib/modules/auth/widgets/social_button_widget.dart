@@ -20,7 +20,7 @@ class SocialButtonWidget extends StatelessWidget {
         backgroundColor: Colors.transparent,
         minimumSize: const Size(
           double.infinity,
-          65,
+          56,
         ),
         shape: RoundedRectangleBorder(
           side: const BorderSide(
@@ -32,15 +32,15 @@ class SocialButtonWidget extends StatelessWidget {
       ),
       icon: SvgPicture.asset(
         iconPath, // Path to your SVG file
-        width: 18, // Adjust size as needed
-        height: 18,
+        width: 16, // Adjust size as needed
+        height: 16,
       ),
       label: Text(
         text,
         style: const TextStyle(
           color: Colors.white,
           fontFamily: 'Gilroy',
-          fontSize: 16,
+          fontSize: 15,
         ),
       ),
       onPressed: onPressed,
