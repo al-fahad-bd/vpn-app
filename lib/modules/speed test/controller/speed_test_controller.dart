@@ -72,37 +72,22 @@ class SpeedTestController extends GetxController {
           debugPrint('Download: ${download.transferRate} ${download.unit.name}');
           debugPrint('Upload: ${upload.transferRate} ${upload.unit.name}');
           
-          Get.snackbar(
-            'Test Complete',
-            'Download: ${download.transferRate.toStringAsFixed(2)} ${download.unit.name}\n'
-            'Upload: ${upload.transferRate.toStringAsFixed(2)} ${upload.unit.name}',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green.withOpacity(0.8),
-            colorText: Colors.white,
-            duration: const Duration(seconds: 3),
-          );
+          // Removed Get.snackbar to fix overlay error
         },
         onError: (String errorMessage, String speedTestError) {
           debugPrint('Speed test error: $errorMessage - $speedTestError');
           isTesting.value = false;
           testPhase.value = '';
+          showResults.value = false;
           
-          Get.snackbar(
-            'Error',
-            'Failed to complete speed test: $errorMessage',
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red.withOpacity(0.8),
-            colorText: Colors.white,
-          );
+          // Removed Get.snackbar to fix overlay error
         },
         onCancel: () {
           debugPrint('Speed test cancelled');
           isTesting.value = false;
           testPhase.value = '';
+          showResults.value = false;
         },
-        // Optional: You can specify custom test servers
-        // downloadTestServer: 'http://your-server.com/test-file.bin',
-        // uploadTestServer: 'http://your-server.com/',
         fileSizeInBytes: 10 * 1024 * 1024, // 10 MB
         useFastApi: true, // Uses fast.com API for server selection
       );
@@ -110,14 +95,7 @@ class SpeedTestController extends GetxController {
       debugPrint('Speed test error: $e');
       isTesting.value = false;
       testPhase.value = '';
-      
-      Get.snackbar(
-        'Error',
-        'Failed to start speed test: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.8),
-        colorText: Colors.white,
-      );
+      showResults.value = false;
     }
   }
 
@@ -136,7 +114,6 @@ class SpeedTestController extends GetxController {
 
   // Helper method to get speed in Mbps
   String getDownloadSpeedInMbps() {
-    // Assuming the speed is already in Mbps from the plugin
     return downloadSpeed.value.toStringAsFixed(2);
   }
 

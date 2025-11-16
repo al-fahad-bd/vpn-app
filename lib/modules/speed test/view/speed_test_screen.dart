@@ -7,12 +7,11 @@ import 'package:vpn_app/modules/controllers/speed_test_controller.dart';
 
 
 class SpeedTestScreen extends StatelessWidget {
-   SpeedTestScreen({super.key});
-
-  final controller = Get.put(SpeedTestController());
+  SpeedTestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SpeedTestController());
     
 
     return Scaffold(
@@ -145,11 +144,12 @@ class SpeedTestScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                // Speed Gauge
+                // Speed Gauge or Results
                 Expanded(
                   child: Center(
                     child: Obx(() {
                       if (controller.isTesting.value) {
+                        // Show gauge during testing
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
@@ -186,11 +186,173 @@ class SpeedTestScreen extends StatelessWidget {
                           ],
                         );
                       } else if (controller.showResults.value) {
-                        return SpeedGauge(
-                          speed: controller.downloadSpeed.value,
-                          isTesting: false,
+                        // Show results after test completion
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Results Card
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 24),
+                              padding: const EdgeInsets.all(32),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Column(
+                                children: [
+                                  const Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.white,
+                                    size: 64,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  const Text(
+                                    'Test Completed!',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 32),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      // Download Result
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              Icons.arrow_downward,
+                                              color: Colors.white70,
+                                              size: 32,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            const Text(
+                                              'Download',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              '${controller.downloadSpeed.value.toStringAsFixed(2)}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 32,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const Text(
+                                              'Mbps',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 2,
+                                        height: 120,
+                                        color: Colors.white30,
+                                      ),
+                                      // Upload Result
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              Icons.arrow_upward,
+                                              color: Colors.white70,
+                                              size: 32,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            const Text(
+                                              'Upload',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              '${controller.uploadSpeed.value.toStringAsFixed(2)}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 32,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const Text(
+                                              'Mbps',
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            // Test Again Button
+                            GestureDetector(
+                              onTap: controller.startSpeedTest,
+                              child: Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Color(0xFF8B7CE8),
+                                      Color(0xFF5B4CC7),
+                                    ],
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.2),
+                                      blurRadius: 20,
+                                      spreadRadius: 5,
+                                    ),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.refresh,
+                                        color: Colors.white,
+                                        size: 48,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Test Again',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       } else {
+                        // Show GO button initially
                         return GestureDetector(
                           onTap: controller.startSpeedTest,
                           child: Container(
@@ -402,20 +564,24 @@ class SpeedGauge extends StatelessWidget {
       width: 280,
       height: 280,
       child: Stack(
+        alignment: Alignment.center,
         children: [
+          // Gauge arc
           CustomPaint(
             size: const Size(280, 280),
             painter: SpeedGaugePainter(speed: speed, isTesting: isTesting),
           ),
-          Center(
+          // Speed text positioned at bottom inside the arc
+          Positioned(
+            bottom: 0,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   speed.toStringAsFixed(2),
                   style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
+                    fontSize: 24,
+                    color: Colors.white,               
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -423,7 +589,7 @@ class SpeedGauge extends StatelessWidget {
                   'Mbps',
                   style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 20,
+                    fontSize: 14,
                   ),
                 ),
               ],
@@ -472,7 +638,7 @@ class SpeedGaugePainter extends CustomPainter {
 
     // Clamp speed to a maximum of 100 for display purposes
     final displaySpeed = speed > 100 ? 100 : speed;
-    final sweepAngle = (displaySpeed / 100) * pi * 1.5;
+    final sweepAngle = (displaySpeed / 100) * pi * 1.60;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi * 1.30,
@@ -489,7 +655,7 @@ class SpeedGaugePainter extends CustomPainter {
 
     final markers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     for (var marker in markers) {
-      final angle = -pi * 1.25 + (marker / 100) * pi * 1.5;
+      final angle = -pi * 1.30 + (marker / 100) * pi * 1.60;
       final x = center.dx + (radius - 35) * cos(angle);
       final y = center.dy + (radius - 35) * sin(angle);
 
@@ -508,8 +674,8 @@ class SpeedGaugePainter extends CustomPainter {
       );
     }
 
-    // Draw needle
-    final needleAngle = -pi * 1.70 + sweepAngle;
+    // Draw needle - starts at 0 position
+    final needleAngle = -pi * 1.30 + sweepAngle;
     final needlePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill;
