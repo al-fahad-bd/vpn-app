@@ -166,7 +166,7 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () => Get.to(() => const SpeedTestScreen()),
+                onTap: () => Get.to(() => SpeedTestScreen()),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding:
