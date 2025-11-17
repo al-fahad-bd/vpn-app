@@ -10,9 +10,7 @@ late Size sizeOfScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await AppPreferences.initHive();
-
   runApp(const MyApp());
 }
 

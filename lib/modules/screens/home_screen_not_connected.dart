@@ -78,8 +78,8 @@ class _VPNHomeScreenState extends State<VPNHomeScreen> {
                       barrierDismissible: true,
                       barrierLabel: "Menu",
                       transitionDuration: const Duration(milliseconds: 300),
-                      pageBuilder: (_, __, ___) => const FullScreenMenu(),
-                      transitionBuilder: (_, anim, __, child) {
+                      pageBuilder: (_, _, _) => const FullScreenMenu(),
+                      transitionBuilder: (_, anim, _, child) {
                         return SlideTransition(
                           position: Tween<Offset>(
                             begin: const Offset(-1, 0),

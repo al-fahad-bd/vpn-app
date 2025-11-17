@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 /// Helper class for accurate ping measurements
 class PingHelper {
   /// Measures ping to a given host
@@ -42,7 +44,7 @@ class PingHelper {
         socket?.destroy();
       }
     } catch (e) {
-      print('Ping error for $host: $e');
+      debugPrint('Ping error for $host: $e');
       return -1;
     }
   }

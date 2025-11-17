@@ -7,7 +7,7 @@ import 'package:vpn_app/modules/controllers/speed_test_controller.dart';
 
 
 class SpeedTestScreen extends StatelessWidget {
-  SpeedTestScreen({super.key});
+  const SpeedTestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +238,7 @@ class SpeedTestScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
-                                              '${controller.downloadSpeed.value.toStringAsFixed(2)}',
+                                              controller.downloadSpeed.value.toStringAsFixed(2),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 32,
@@ -279,7 +279,7 @@ class SpeedTestScreen extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
-                                              '${controller.uploadSpeed.value.toStringAsFixed(2)}',
+                                              controller.uploadSpeed.value.toStringAsFixed(2),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 32,
@@ -636,9 +636,22 @@ class SpeedGaugePainter extends CustomPainter {
       ..strokeWidth = 21
       ..strokeCap = StrokeCap.round;
 
-    // Clamp speed to a maximum of 100 for display purposes
-    final displaySpeed = speed > 100 ? 100 : speed;
-    final sweepAngle = (displaySpeed / 100) * pi * 1.60;
+    // Clamp speed to a maximum of 1000 for display purposes
+    final displaySpeed = speed > 1000 ? 1000.0 : speed;
+    
+    // Non-linear mapping for better visualization
+    // Map speed to arc position using logarithmic-like scaling
+    double speedToArcPosition(double s) {
+      if (s <= 0) return 0;
+      if (s <= 10) return s / 10 * 0.2; // 0-10 takes 20% of arc
+      if (s <= 100) return 0.2 + (s - 10) / 90 * 0.3; // 10-100 takes 30% of arc
+      if (s <= 500) return 0.5 + (s - 100) / 400 * 0.3; // 100-500 takes 30% of arc
+      return 0.8 + (s - 500) / 500 * 0.2; // 500-1000 takes 20% of arc
+    }
+    
+    final arcPosition = speedToArcPosition(displaySpeed);
+    final sweepAngle = arcPosition * pi * 1.60;
+    
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi * 1.30,
@@ -647,23 +660,28 @@ class SpeedGaugePainter extends CustomPainter {
       progressPaint,
     );
 
-    // Draw scale markers
+    // Draw scale markers with custom positions
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );
 
-    final markers = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    final markers = [0, 5, 10, 50, 100, 250, 500, 750, 1000];
+    
     for (var marker in markers) {
-      final angle = -pi * 1.30 + (marker / 100) * pi * 1.60;
+      final markerPosition = speedToArcPosition(marker.toDouble());
+      final angle = -pi * 1.30 + markerPosition * pi * 1.60;
       final x = center.dx + (radius - 35) * cos(angle);
       final y = center.dy + (radius - 35) * sin(angle);
 
+      // Adjust font size for better readability
+      final fontSize = marker >= 100 ? 12.0 : 13.0;
+      
       textPainter.text = TextSpan(
         text: marker.toString(),
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white70,
-          fontSize: 14,
+          fontSize: fontSize,
           fontWeight: FontWeight.w500,
         ),
       );
@@ -674,7 +692,7 @@ class SpeedGaugePainter extends CustomPainter {
       );
     }
 
-    // Draw needle - starts at 0 position
+    // Draw needle
     final needleAngle = -pi * 1.30 + sweepAngle;
     final needlePaint = Paint()
       ..color = Colors.white
@@ -706,7 +724,6 @@ class SpeedGaugePainter extends CustomPainter {
     return oldDelegate.speed != speed || oldDelegate.isTesting != isTesting;
   }
 }
-
 class _NetworkCard extends StatelessWidget {
   final IconData icon;
   final String title;

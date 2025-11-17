@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
 
   final homeController = Get.put(ControllerHome());
 
-  locationSelectionBottomNavigation(BuildContext context) {
+  SafeArea locationSelectionBottomNavigation(BuildContext context) {
     debugPrint("bottom section clicked");
     return SafeArea(
       child: Semantics(
